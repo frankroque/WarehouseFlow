@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct CrudOperations: Identifiable{
+    var id: String
+    var productName: String
+    var productAmount: String
+    var productType: String
+}

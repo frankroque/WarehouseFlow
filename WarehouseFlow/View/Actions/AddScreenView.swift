@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 struct AddScreenView: View {
-    @ObservedObject var model = ViewModel()
+    @ObservedObject var modelAdd = ViewModel()
     
     @State var productName = ""
     @State var productAmount = ""
@@ -19,51 +19,75 @@ struct AddScreenView: View {
     let teal = Color(red: 49/255, green: 163/255, blue: 159/255)
     var body: some View {
         VStack{
-            Text("Enter Product Information").font(.largeTitle).padding()
-            
-            ProductFields(placeHolder: placeHolderNames[0], information: productName)
-            ProductFields(placeHolder: placeHolderNames[1], information: productName)
-            ProductFields(placeHolder: placeHolderNames[2], information: productName)
-            
-            Button(action: {
-                model.addData(productName: productName, productAmount: productAmount, productType: productType)
+            Text("Enter Product Information").font(.largeTitle).multilineTextAlignment(.center).padding()
+            VStack(spacing: 5){
+                /*ProductFields(placeHolder: placeHolderNames[0], information: productName)
+                 ProductFields(placeHolder: placeHolderNames[1], information: productAmount)
+                 ProductFields(placeHolder: placeHolderNames[2], information: productType)**/
                 
-                productName = ""
-                productAmount = ""
-                productType = ""
-            }, label: {
-                Text("Add Item")
-                    .font(.largeTitle)
-                    .foregroundColor(teal)
-                    .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
-                })
-            
-        }
-        //.frame(maxWidth: .infinity, maxHeight: .infinity)
-        //.background(teal)
-        //.edgesIgnoringSafeArea(.all)
-        .padding()
-    }
-
-   // init(){
-       // model.getData()
-    //}
-
-}
-
-struct ProductFields: View{
-    @State var placeHolder: String
-    @State var information: String
-    var body: some View{
-        VStack{
-            Section{
-                TextField(placeHolder, text: $information)
+                TextField("Product Name", text: $productName)
                     .padding()
                     .border(Color.white)
                     .font(.largeTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                TextField("Product Amount", text: $productAmount)
+                    .padding()
+                    .border(Color.white)
+                    .font(.largeTitle)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                TextField("Product Type", text: $productType)
+                    .padding()
+                    .border(Color.white)
+                    .font(.largeTitle)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                
+                Button(action: {
+                    modelAdd.addData(productName: productName, productAmount: productAmount, productType: productType)
+                    
+                    productName = ""
+                    productAmount = ""
+                    productType = ""
+                    
+                }, label: {
+                    Text("Add Item")
+                        .foregroundColor(Color.black)
+                        .padding()
+                        .frame(width: 200, height: 50)
+                        .border(Color.black)
+                        .background(teal)
+                    })
+                Divider()
+                NavigationLink(destination: ShowData()){
+                    Text("Show Data")
+                        .foregroundColor(Color.black)
+                        .padding()
+                        .frame(width: 200, height: 50)
+                        .border(Color.black)
+                        .background(teal)
+                }
             }
         }
+        .padding()
+    }
+    init(){
+        modelAdd.getData()
+    }
+
+}
+//This was supposed to be the model for the textfield inputs but firebase did not read the input, but will leave in here for now see if i can figure it out later.
+struct ProductFields: View{
+    @State var placeHolder: String
+    @State var information: String
+    var body: some View{
+        
+        TextField(placeHolder, text: $information)
+            .padding()
+            .border(Color.white)
+            .font(.largeTitle)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
     }
 }
 
