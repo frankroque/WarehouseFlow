@@ -14,10 +14,13 @@ struct DeleteScreenView: View{
     @State var productName = ""
     @State var productAmount = ""
     @State var productType = ""
+    
+    @State private var showAlert = false
     var body: some View {
         VStack{
             Text("Click Red Circle to delete Item")
                 .font(.largeTitle)
+                .bold()
                 .multilineTextAlignment(.center)
                 .padding()
             HStack{
@@ -43,11 +46,13 @@ struct DeleteScreenView: View{
                     Text(item.productType)
                         .padding()
                         .frame(width: 125, height: /*@START_MENU_TOKEN@*/100.0/*@END_MENU_TOKEN@*/)
+                        
                     
                     Spacer()
                     
                     Button(action: {
                         modelDelete.deleteData(deleteItem: item)
+                        showAlert = true
                     }, label: {
                         Image(systemName: "minus.circle")
                             .padding(.trailing)
@@ -55,6 +60,9 @@ struct DeleteScreenView: View{
                             
                     })
                     .buttonStyle(BorderlessButtonStyle())
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Item Deleted!"))
+                    }
                 }
             }
         }

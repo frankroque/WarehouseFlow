@@ -16,6 +16,8 @@ struct AddScreenView: View {
     @State var productType = ""
     
     @State var placeHolderNames = ["Product Name", "Product Amount", "Product Type"]
+    @State private var showingAlert = false
+    
     let teal = Color(red: 49/255, green: 163/255, blue: 159/255)
     var body: some View {
         VStack{
@@ -31,11 +33,12 @@ struct AddScreenView: View {
                     .font(.largeTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                TextField("Product Amount", text: $productAmount)
+                TextField("Product Amount(Units)", text: $productAmount)
                     .padding()
                     .border(Color.white)
-                    .font(.largeTitle)
+                    //.font(.largeTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 
                 TextField("Product Type", text: $productType)
                     .padding()
@@ -50,7 +53,7 @@ struct AddScreenView: View {
                     productName = ""
                     productAmount = ""
                     productType = ""
-                    
+                    showingAlert = true
                 }, label: {
                     Text("Add Item")
                         .foregroundColor(Color.black)
@@ -58,7 +61,10 @@ struct AddScreenView: View {
                         .frame(width: 200, height: 50)
                         .border(Color.black)
                         .background(teal)
-                    })
+                }).alert(isPresented: $showingAlert){
+                    Alert(title: Text("Item Added!"))
+                }
+                
                 Divider()
                 NavigationLink(destination: ShowData()){
                     Text("Show Data")
