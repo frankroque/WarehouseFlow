@@ -31,7 +31,7 @@ struct ContentView: View {
                 
                 Divider()
                 
-                NavigationLink(destination: SelectAction()){
+                NavigationLink(destination: AddType()){
                     Text("Login")
                         .foregroundColor(Color.black)
                         .padding()

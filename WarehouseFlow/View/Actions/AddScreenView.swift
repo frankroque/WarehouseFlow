@@ -11,6 +11,7 @@ import Firebase
 struct AddScreenView: View {
     @ObservedObject var modelAdd = ViewModel()
     
+    @State var productIdentifier = ""
     @State var productName = ""
     @State var productAmount = ""
     @State var productType = ""
@@ -26,6 +27,11 @@ struct AddScreenView: View {
                 /*ProductFields(placeHolder: placeHolderNames[0], information: productName)
                  ProductFields(placeHolder: placeHolderNames[1], information: productAmount)
                  ProductFields(placeHolder: placeHolderNames[2], information: productType)**/
+                TextField("Product Identifier", text: $productIdentifier)
+                    .padding()
+                    .border(Color.white)
+                    .font(.largeTitle)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 TextField("Product Name", text: $productName)
                     .padding()
@@ -48,8 +54,9 @@ struct AddScreenView: View {
                 
                 
                 Button(action: {
-                    modelAdd.addData(productName: productName, productAmount: productAmount, productType: productType)
+                    modelAdd.addData(documentName: productIdentifier,productName: productName, productAmount: productAmount, productType: productType)
                     
+                    productIdentifier = ""
                     productName = ""
                     productAmount = ""
                     productType = ""

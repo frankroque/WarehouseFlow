@@ -11,6 +11,11 @@ import Firebase
 class ViewModel: ObservableObject{
     @Published var actions = [CrudOperations]()
     
+    let docData:[String: Any] = [
+        "Product Name": String.self,
+        "Product Amount": String.self
+    ]
+    
     func getData(){
         let db = Firestore.firestore()
         db.collection("Add Product").getDocuments { snapshot, error in
@@ -32,9 +37,20 @@ class ViewModel: ObservableObject{
         }
     }
     
-    func addData(productName: String, productAmount: String, productType: String){
+    func addData(documentName: String,productName: String, productAmount: String, productType: String){
         let db = Firestore.firestore()
-        db.collection("Add Product").addDocument(data: ["Product Name": productName,"Product Amount":productAmount, "Product Type": productType]){ error in
+        db.collection("Add Product").document(documentName).setData(["Product Name": productName, "Product Amount": productAmount, "Product Type": productType]){ error in
+            if error == nil{
+                print("Data was added")
+            }else{
+                print("There was a problem adding the data")
+            }
+        }
+    }
+    
+    func addDocument(documentName: String){
+        let db = Firestore.firestore()
+        db.collection("Add Product").document(documentName).setData(["name": documentName]){ error in
             if error == nil{
                 print("Data was added")
             }else{
@@ -53,6 +69,18 @@ class ViewModel: ObservableObject{
                     }
                 }
             }
+        }
+    }
+    
+    func updateData(documentName: String,productName:String, productAmount:String){
+        let db = Firestore.firestore()
+        db.collection("Add Product").document(documentName).setData(["Product Name": productName, "Product Amount":productAmount], merge: true) {error in
+            if error == nil{
+                print("Success updating data")
+            }else{
+                print("Something went wrong.")
+            }
+            
         }
     }
     
